@@ -34,6 +34,11 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; exclude from recent file list
+(after! recentf
+  (add-to-list 'recentf-exclude "Mail/iuryfukuda")
+  (add-to-list 'recentf-exclude "Mail/pirata")
+  (add-to-list 'recentf-exclude "/var"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -78,3 +83,9 @@
 (map! :leader
       :desc "google translate hotkey"
       "r" #'helm-recentf)
+
+;; load packages related to org-mode
+(def-package! org-pomodoro
+  :commands org-pomodoro)
+(def-package! counsel-org-clock
+  :commands (counsel-org-clock-context counsel-org-clock-history))
