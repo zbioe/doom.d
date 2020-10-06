@@ -91,5 +91,5 @@
 ;; ace-window enlarge letters
 (custom-set-faces!
   '(aw-leading-char-face
-    :foreground "white" :background "red"
-    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+    :foreground "white" :background "black"
+    :weight bold :height 1.0 :box (:line-width 8 :color "black")))
