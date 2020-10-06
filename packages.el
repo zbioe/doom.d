@@ -48,8 +48,3 @@
 
 (package! wakatime-mode)
 (package! evil-tutor)
-(package! google-translate)
-;; -*- no-byte-compile: t; -*-
-;;; text/google-translate/packages.el
-
-(package! google-translate)
