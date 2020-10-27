@@ -81,6 +81,10 @@
       :desc "recentf open files"
       "r" #'recentf-open-files)
 
+(setq explicit-shell-file-name "/bin/bash")
+(setq shell-file-name "bash")
+(setenv "SHELL" shell-file-name)
+
 ;; load packages related to org-mode
 (use-package org-pomodoro
   :commands org-pomodoro)
@@ -93,3 +97,24 @@
   '(aw-leading-char-face
     :foreground "white" :background "black"
     :weight bold :height 1.0 :box (:line-width 8 :color "black")))
+
+;; (setq ispell-aspell-data-dir "~/spell")
+;; (setq ispell-aspell-dict-dir ispell-aspell-data-dir)
+;; (setq ispell-aspell-dictionary-alist '())
+;; (add-to-list 'ispell-aspell-dictionary-alist (ispell-aspell-find-dictionary "en_US"))
+;; (add-to-list 'ispell-aspell-dictionary-alist (ispell-aspell-find-dictionary "pt_BR"))
+
+;; (defun flyspell-to-portuguese()
+;;   (interactive)
+;;   (ispell-change-dictionary "pt_BR"))
+
+;; (defun flyspell-to-english()
+;;   (interactive)
+;;   (ispell-change-dictionary "en_US"))
+
+;; base64 encode without break lines
+(defun base64-encode-region-prefix-arg (&rest _args)
+  "Pass prefix arg as third arg to `base64-encode-region'."
+  (interactive "r\nP"))
+
+(advice-add 'base64-encode-region :before #'base64-encode-region-prefix-arg)
