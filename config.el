@@ -22,11 +22,13 @@
 (global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "C-h") 'delete-backward-char)
 
-(when (equal system-type 'gnu/linux)
-  (setq racer-rust-src-path (concat (getenv "HOME") "/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library")))
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
 
-(add-to-list 'exec-path (concat (getenv "HOME") "/.rustup/toolchains/1.60.0-x86_64-unknown-linux-gnu/bin"))
+;; (when (equal system-type 'gnu/linux)
+;;   (setq racer-rust-src-path (getenv "RUST_SRC_PATH")))
 
+;; (add-to-list 'exec-path (getenv "RUST_BIN"))
 ;; Add keys to scroll page by line
 ;;(global-set-key (kbd "M-[") 'scroll-up-line)
 ;;(global-set-key (kbd "M-]") 'scroll-down-line)
@@ -95,3 +97,96 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
+(use-package! org-roam
+  :custom
+  (org-roam-directory "~/roam")
+  (org-roam-completion-everywhere t)
+  (org-roam-completion-system 'default)
+  (org-roam-dailies-directory "journal/"))
+  ;; (org-roam-capture-templates
+  ;;   '(("d" "default" plain
+  ;;      #'org-roam-capture--get-point
+  ;;      "%?"
+  ;;      :file-name "%<%Y%m%d%H%M%S>-${slug}"
+  ;;      :head "#+title: ${title}\n"
+  ;;      :unnarrowed t)
+  ;;     ("ll" "link note" plain
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %^{Link}"
+  ;;      :file-name "Inbox"
+  ;;      :olp ("Links")
+  ;;      :unnarrowed t
+  ;;      :immediate-finish)
+  ;;     ("lt" "link task" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* TODO %^{Link}"
+  ;;      :file-name "Inbox"
+  ;;      :olp ("Tasks")
+  ;;      :unnarrowed t
+  ;;      :immediate-finish)))
+  ;; (org-roam-dailies-capture-templates
+  ;;   '(("d" "default" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %?"
+  ;;      :file-name "Journal/%<%Y-%m-%d>"
+  ;;      :head "#+title: %<%Y-%m-%d %a>\n\n[[roam:%<%Y-%B>]]\n\n")
+  ;;     ("t" "Task" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* TODO %?\n  %U\n  %a\n  %i"
+  ;;      :file-name "Journal/%<%Y-%m-%d>"
+  ;;      :olp ("Tasks")
+  ;;      :empty-lines 1
+  ;;      :head "#+title: %<%Y-%m-%d %a>\n\n[[roam:%<%Y-%B>]]\n\n")
+  ;;     ("j" "journal" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %<%I:%M %p> - Journal  :journal:\n\n%?\n\n"
+  ;;      :file-name "Journal/%<%Y-%m-%d>"
+  ;;      :olp ("Log")
+  ;;      :head "#+title: %<%Y-%m-%d %a>\n\n[[roam:%<%Y-%B>]]\n\n")
+  ;;     ("l" "log entry" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %<%I:%M %p> - %?"
+  ;;      :file-name "Journal/%<%Y-%m-%d>"
+  ;;      :olp ("Log")
+  ;;      :head "#+title: %<%Y-%m-%d %a>\n\n[[roam:%<%Y-%B>]]\n\n")
+  ;;     ("m" "meeting" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %<%I:%M %p> - %^{Meeting Title}  :meetings:\n\n%?\n\n"
+  ;;      :file-name "Journal/%<%Y-%m-%d>"
+  ;;      :olp ("Log")
+  ;;      :head "#+title: %<%Y-%m-%d %a>\n\n[[roam:%<%Y-%B>]]\n\n")))
+
+  ;; :bind
+  ;; (:map org-roam-mode-map
+  ;;  ;; :desc "Org Roam" :ne "r r" #'org-roam
+  ;;  ;; :desc "Org Roam Find File" :ne "r f" #'org-roam-find-file
+  ;;  ;; :desc "Org Roam Find Date" :ne "r d" #'org-roam-dailies-find-date
+  ;;  ;; :desc "Org Roam Find File" :ne "r c" #'org-roam-dailies-capture-today
+  ;;  ("C-c n l"   . org-roam)
+  ;;  ("C-c n f"   . org-roam-find-file)
+  ;;  ("C-c n d"   . org-roam-dailies-find-date)
+  ;;  ("C-c n c"   . org-roam-dailies-capture-today)
+  ;;  ("C-c n C r" . org-roam-dailies-capture-tomorrow)
+  ;;  ("C-c n t"   . org-roam-dailies-find-today)
+  ;;  ("C-c n y"   . org-roam-dailies-find-yesterday)
+  ;;  ("C-c n r"   . org-roam-dailies-find-tomorrow)
+  ;;  ("C-c n g"   . org-roam-graph)
+  ;;  :map org-mode-map
+  ;;  (("C-c n i" . org-roam-insert))
+  ;;  (("C-c n I" . org-roam-insert-immediate)))
