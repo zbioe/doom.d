@@ -119,6 +119,18 @@
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
   (org-roam-dailies-directory "journal/"))
+
+(require 'rustic)
+(setq rustic-format-on-save nil)
+(setq buffer-save-without-query t)
+(setq rustic-format-trigger 'on-compile)
+(setq compilation-read-command nil)
+(setq doom-localleader-key "C-SPC")
+
+(setq lsp-rust-analyzer-cargo-watch-command "clippy")
+;; (push 'rustic-clippy flycheck-checkers)
+(setq rustic-flycheck-clippy-params "--message-format=json")
+
   ;; (org-roam-capture-templates
   ;;   '(("d" "default" plain
   ;;      #'org-roam-capture--get-point
@@ -190,3 +202,12 @@
   ;;  :map org-mode-map
   ;;  (("C-c n i" . org-roam-insert))
   ;;  (("C-c n I" . org-roam-insert-immediate)))
+(setq doom-font
+      (cl-find-if #'doom-font-exists-p
+                  '( "Noto Sans Mono:pixelsize=20"
+                    "GohuGohu:pixelsize=14")))
+                    
+
+;; (setq doom-unicode-font
+;;       (cl-find-if #'doom-font-exists-p
+;;                   '( "Noto Sans Symbols:pixelsize=15")))
