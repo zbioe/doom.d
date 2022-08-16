@@ -51,3 +51,4 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 (package! pdf-tools :built-in 'prefer)
+(package! smudge)

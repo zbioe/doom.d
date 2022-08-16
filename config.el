@@ -211,3 +211,5 @@
 ;; (setq doom-unicode-font
 ;;       (cl-find-if #'doom-font-exists-p
 ;;                   '( "Noto Sans Symbols:pixelsize=15")))
+
+(setq smudge-transport 'connect)
