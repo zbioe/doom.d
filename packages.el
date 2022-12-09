@@ -48,7 +48,45 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(unpin! org-roam)
+;; (unpin! org-roam)
 (package! org-roam-ui)
+(package! org-roam)
 (package! pdf-tools :built-in 'prefer)
 (package! smudge)
+(package! hackernews)
+(package! eaf
+ :recipe (:host github :repo "emacs-eaf/emacs-application-framework"
+                :files (:defaults "*.js" "*.css" "*.so" "*.py" "*.json" "core" "extension" "app")
+                :pre-build ("python" "install-eaf.py" "--install-all-apps" "--ignore-sys-deps" "--ignore-py-deps")))
+
+(package! org-cv
+  :recipe (:host gitlab
+           :repo "Titan-C/org-cv"))
+
+(package! ox-moderncv :recipe
+  (:host gitlab
+   :repo "Titan-C/org-cv"
+   :files ("*.el")))
+
+(after! eaf
+  ((require 'eaf-airshare)
+   (require 'eaf-browser)
+   (require 'eaf-camera)
+   (require 'eaf-demo)
+   (require 'eaf-file-browser)
+   (require 'eaf-file-manager)
+   (require 'eaf-file-sender)
+   (require 'eaf-image-viewer)
+   (require 'eaf-jupyter)
+   (require 'eaf-markdown-previewer)
+   (require 'eaf-mermaid)
+   (require 'eaf-mindmap)
+   (require 'eaf-music-player)
+   (require 'eaf-org-previewer)
+   (require 'eaf-pdf-viewer)
+   (require 'eaf-system-monitor)
+   (require 'eaf-terminal)
+   (require 'eaf-video-player)
+   (require 'eaf-vue-demo)
+   (require 'eaf-netease-cloud-music)
+   (require 'eaf-rss-reader)))

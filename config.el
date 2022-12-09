@@ -55,7 +55,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -205,11 +205,35 @@
 (setq doom-font
       (cl-find-if #'doom-font-exists-p
                   '( "Noto Sans Mono:pixelsize=20"
-                    "GohuGohu:pixelsize=14")))
-                    
+                    "GohuGohu:pixelsize=14"
+                    "Iosevka Nerd Font:pixelsize=14")))
+
+
+; resume stuffs
+(after! org
+  (require 'ox-moderncv nil t)
+  (require 'ox-hugocv nil t)
+  (use-package! ox-extra
+      :config
+      (ox-extras-activate '(latex-header-blocks ignore-headlines))))
+
+
+;; (defun resume-hugo-export ()
+;;   "Export the resume with moderncv to hugo md"
+;;   (interactive)
+;;   (let ((name (file-name-sans-extension (buffer-name)))
+;;         (org-export-exclude-tags '("noexport" "latexonly")))
+;;       (org-export-to-file 'hugocv (concat name ".md"))))
+
+
+;; (setq org-hugo-auto-set-lastmod 't
+;;       org-hugo-section "posts"
+;;       org-hugo-suppress-lastmod-period 43200.0
+;;       org-hugo-export-creator-string "Emacs 28.2 (Org mode 9.6 + ox-hugo + XiongChenYu)")
 
 ;; (setq doom-unicode-font
 ;;       (cl-find-if #'doom-font-exists-p
 ;;                   '( "Noto Sans Symbols:pixelsize=15")))
 
 (setq smudge-transport 'connect)
+(setq display-line-numbers-type nil)
