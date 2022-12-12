@@ -68,6 +68,15 @@
    :repo "Titan-C/org-cv"
    :files ("*.el")))
 
+;; ebook reader
+(package! nov-xwidget :recipe
+  (:host github :repo "chenyanming/nov-xwidget"
+   :files (:defaults "*.el")))
+
+(add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
+
+(package! calibredb)
+
 (after! eaf
   ((require 'eaf-airshare)
    (require 'eaf-browser)

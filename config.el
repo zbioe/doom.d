@@ -131,6 +131,12 @@
 ;; (push 'rustic-clippy flycheck-checkers)
 (setq rustic-flycheck-clippy-params "--message-format=json")
 
+(defun find-books()
+  (interactive)
+  (doom-project-find-file (concat (getenv "HOME") "/books/")))
+
+(map! :leader :desc "Find book in `books` dir" "fb" #'find-books)
+
   ;; (org-roam-capture-templates
   ;;   '(("d" "default" plain
   ;;      #'org-roam-capture--get-point
@@ -235,5 +241,11 @@
 ;;       (cl-find-if #'doom-font-exists-p
 ;;                   '( "Noto Sans Symbols:pixelsize=15")))
 
+(defun my-nov-font-setup ()
+  (face-remap-add-relative 'variable-pitch :family "Noto Sans"
+                                           :height 1.4))
+(add-hook 'nov-mode-hook 'my-nov-font-setup)
+
 (setq smudge-transport 'connect)
 (setq display-line-numbers-type nil)
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
