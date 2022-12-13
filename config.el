@@ -16,7 +16,8 @@
 (setq display-line-numbers-type nil)
 
 (setq doom-leader-alt-key "C-,")
-(setq doom-localleader-alt-key "C-<")
+(setq doom-localleader-key "C-SPC")
+(setq doom-localleader-alt-key "C-ç")
 ;; Bind new macro to somme commands
 (global-set-key (kbd "M-p") 'mark-paragraph)
 (global-set-key (kbd "M-h") 'backward-kill-word)
@@ -131,11 +132,24 @@
 ;; (push 'rustic-clippy flycheck-checkers)
 (setq rustic-flycheck-clippy-params "--message-format=json")
 
+(defvar home-dir (getenv "HOME"))
+(defun find-dotnix()
+  (interactive)
+ (doom-project-find-file (concat (getenv "HOME") "/dotnix/")))
+
+(map! :leader :desc "Find files in `dotnix` dir" "fh" #'find-dotnix)
+
 (defun find-books()
   (interactive)
   (doom-project-find-file (concat (getenv "HOME") "/books/")))
 
 (map! :leader :desc "Find book in `books` dir" "fb" #'find-books)
+
+(defun find-dev()
+  (interactive)
+  (doom-project-find-file (concat (getenv "HOME") "/dev/")))
+
+(map! :leader :desc "Find projects in `dev` dir" "fv" #'find-dev)
 
   ;; (org-roam-capture-templates
   ;;   '(("d" "default" plain
@@ -245,6 +259,29 @@
   (face-remap-add-relative 'variable-pitch :family "Noto Sans"
                                            :height 1.4))
 (add-hook 'nov-mode-hook 'my-nov-font-setup)
+
+(defun my-cargo-run ()
+  "Build and run Rust code."
+  (interactive)
+  (rustic-cargo-run)
+  (let (
+        (orig-win (selected-window))
+        (run-win (display-buffer (get-buffer "*cargo-run*") nil 'visible)))
+
+    (select-window run-win)
+    (comint-mode)
+    (read-only-mode 0)
+    (select-window orig-win)))
+
+(map! :map rustic-mode-map
+      :localleader
+        :desc "cargo test" "t" #'rustic-cargo-test
+        :desc "cargo build" "b" #'rustic-cargo-build
+        :desc "cargo run (custom)" "r" #'my-cargo-run
+        :desc "cargo run" "R" #'rustic-cargo-run)
+
+
+
 
 (setq smudge-transport 'connect)
 (setq display-line-numbers-type nil)
