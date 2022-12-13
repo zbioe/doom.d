@@ -22,6 +22,7 @@
 (global-set-key (kbd "M-p") 'mark-paragraph)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "C-h") 'delete-backward-char)
+(map! "C-h" #'delete-backward-char)
 
 (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
@@ -323,6 +324,7 @@
 
 (map! :leader
   :desc "run" "d" #'dotnix-run)
+
 
 (setq smudge-transport 'connect)
 (setq display-line-numbers-type nil)
