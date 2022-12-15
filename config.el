@@ -18,14 +18,29 @@
 (setq doom-leader-alt-key "C-,")
 (setq doom-localleader-key "C-SPC")
 (setq doom-localleader-alt-key "C-ç")
+
 ;; Bind new macro to somme commands
 (global-set-key (kbd "M-p") 'mark-paragraph)
 (global-set-key (kbd "M-h") 'backward-kill-word)
+
+;; ensure Ctrl+H is mapped to delete backward char
 (global-set-key (kbd "C-h") 'delete-backward-char)
-(map! "C-h" #'delete-backward-char)
+(evil-define-key* '(insert emacs) 'global (kbd "C-h") #'backward-delete-char-untabify)
+(map! :ie "C-h" #'backward-delete-char-untabify)
+(map! :after evil-org
+ :map evil-org-mode-map
+ :i "C-h" #'backward-delete-char-untabify)
+(map! :after evil-org
+ :map evil-org-mode-map
+ :i "C-d" #'evil-org-delete-char)
+(evil-define-key* '(insert emacs) 'global (kbd "C-h") #'backward-delete-char-untabify)
+
+;; default to horizontal split
+(setq split-width-threshold 150)
 
 (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+(setq ispell-dictionary "en_US")
 
 ;; (when (equal system-type 'gnu/linux)
 ;;   (setq racer-rust-src-path (getenv "RUST_SRC_PATH")))
@@ -65,7 +80,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/org")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -117,10 +132,10 @@
 
 (use-package! org-roam
   :custom
-  (org-roam-directory "~/roam")
+  (org-roam-directory "~/org-roam")
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
-  (org-roam-dailies-directory "journal/"))
+  (org-roam-dailies-directory "~/org-dailies"))
 
 (require 'rustic)
 (setq rustic-format-on-save nil)
@@ -307,14 +322,6 @@
         (start-next-command)))))
 
 ;; Example use
-(defun dotnix-run ()
-  (interactive)
-  (with-current-buffer (get-buffer-create "*dotnix*") (erase-buffer))
-  (create-file-buffer "*dotnix*")
-  (with-current-buffer (get-buffer-create "*dotnix*") (read-only-mode))
-  (execute-commands "*dotnix*"
-                    "dotnix && echo"))
-
 (defun dotnix-run()
   (interactive)
   (setq bufname "*dotnix*")
@@ -325,6 +332,27 @@
 (map! :leader
   :desc "run" "d" #'dotnix-run)
 
+;; Example use
+(defun doom-sync()
+  (interactive)
+  (setq bufname "*doom-sync*")
+  (async-shell-command "doom sync && echo Done!" bufname)
+  (with-current-buffer (get-buffer-create bufname) (read-only-mode))
+  (with-current-buffer (get-buffer-create bufname) (evil-normal-state)))
+
+(map! :leader
+  :desc "doom sync" "hdr" #'doom-sync)
+
+;; Translate
+;;
+(require 'go-translate)
+(setq gts-translate-list '(("en" "pt") ("pt" "en")))
+(setq gts-default-translator
+      (gts-translator
+       :picker (gts-prompt-picker)
+       :engines (list (gts-google-engine) (gts-google-rpc-engine))
+       :render (gts-buffer-render)))
+;;
 
 (setq smudge-transport 'connect)
 (setq display-line-numbers-type nil)

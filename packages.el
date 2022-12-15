@@ -76,6 +76,8 @@
 (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
 
 (package! calibredb)
+(package! xkcd)
+(package! go-translate)
 
 (after! eaf
   ((require 'eaf-airshare)
