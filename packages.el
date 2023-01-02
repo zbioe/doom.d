@@ -78,6 +78,16 @@
 (package! calibredb)
 (package! xkcd)
 (package! go-translate)
+(package! ron-mode)
+(package! yuck-mode)
+
+(package! exercism-modern
+  :recipe (:files (:defaults "icons")
+           :host github :repo "elken/exercism-modern"))
+
+(package! exercism :recipe
+  (:host github :repo "anonimitoraf/exercism.el"
+   :files (:defaults "*.el")))
 
 (after! eaf
   ((require 'eaf-airshare)

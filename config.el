@@ -343,6 +343,31 @@
 (map! :leader
   :desc "doom sync" "hdr" #'doom-sync)
 
+(use-package! yuck-mode)
+(add-to-list 'auto-mode-alist '("\\.yuck\\'" . yuck-mode))
+(use-package! ron-mode)
+(add-to-list 'auto-mode-alist '("\\.yuck\\'" . ron-mode))
+
+(use-package! exercism-modern
+  :commands
+  (exercism-modern-jump
+   exercism-modern-view-tracks
+   exercism-modern-track-view-exercises))
+
+
+(use-package! exercism)
+(map! :leader :prefix ("ç". "exercism")
+  :desc "main ui" "m" #'exercism
+  :desc "exercism open exercise" "o" #'exercism-open-exercise
+  :desc "exercism submit" "s" #'exercism-submit
+  :desc "exercism modern view tracks" "t" #'exercism-modern-view-tracks
+  :desc "exercism modern view exercises" "e" #'exercism-modern-track-view-exercises
+  :desc "exercism modern jump" "j" #'exercism-modern-jump
+  :desc "exercism set track" "l" #'exercism-set-track
+  :desc "exercism configure" "c" #'exercism-configure
+  :desc "exercism submit then open in browser" "b" #'exercism-submit-then-open-in-browser)
+
+
 ;; Translate
 ;;
 (require 'go-translate)
