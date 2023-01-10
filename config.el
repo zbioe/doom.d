@@ -330,7 +330,7 @@
   (with-current-buffer (get-buffer-create bufname) (evil-normal-state)))
 
 (map! :leader
-  :desc "run" "d" #'dotnix-run)
+  :desc "dotnix execute" "ed" #'dotnix-run)
 
 ;; Example use
 (defun doom-sync()
